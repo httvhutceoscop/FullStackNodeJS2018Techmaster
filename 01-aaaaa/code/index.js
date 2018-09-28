@@ -5,7 +5,11 @@ Instructor: Nguyễn Đức Hoàng
 
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
+app.use(bodyParser.json());
+
 const port = 8080
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -46,10 +50,15 @@ app.get('/new', (req, res) => {
 const books = require('./routes/books')
 const files = require('./routes/files')
 const system = require('./routes/system')
+const users = require('./routes/users')
+const calculations = require('./routes/calculations')
 
 app.use('/books', books)
 app.use('/files', files)
 app.use('/system', system)
+app.use('/users', users)
+app.use('/calculations', calculations)
+
 
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname + '/error404.html'))
