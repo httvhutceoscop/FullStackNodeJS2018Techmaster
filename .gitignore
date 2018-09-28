@@ -9,6 +9,7 @@ video/
 .DS_STORE
 subscribe.png
 subscribe.psd
+screenshots
 
 # Java class files
 *.class

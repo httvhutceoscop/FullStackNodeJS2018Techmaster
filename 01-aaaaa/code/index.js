@@ -4,12 +4,16 @@ Instructor: Nguyễn Đức Hoàng
 */
 
 const express = require('express')
+const path = require('path')
 const app = express()
 const bodyParser = require('body-parser')
 app.use(bodyParser.json());
 
+app.use(express.static(path.join(__dirname, 'javascripts')))//js in client
 const port = 8080
 app.use(bodyParser.urlencoded({ extended: true }));
+//View engine
+app.set('view engine', 'ejs');//npm install ejs
 
 app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
