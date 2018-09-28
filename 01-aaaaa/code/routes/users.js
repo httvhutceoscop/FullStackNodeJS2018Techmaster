@@ -8,8 +8,9 @@ var router = express.Router()
 router.get('/bmi', async (req, res) => {
     //BMI = Body Mass Index
     let {name = "", weight = 0, height = 0 } = req.query
+    debugger
     weight = parseFloat(weight)
-    height = parseFloat(height)
+    height = parseFloat(height)    
     if (isNaN(weight)||isNaN(height)) {
         res.json({
             result: "",
