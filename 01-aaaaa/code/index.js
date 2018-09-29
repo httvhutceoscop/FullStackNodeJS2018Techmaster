@@ -14,6 +14,12 @@ const port = 8080
 app.use(bodyParser.urlencoded({ extended: true }));
 //View engine
 app.set('view engine', 'ejs');//npm install ejs
+//Upload files
+const fileUpload = require('express-fileupload');
+app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+    preserveExtension: true
+}))
 
 app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
