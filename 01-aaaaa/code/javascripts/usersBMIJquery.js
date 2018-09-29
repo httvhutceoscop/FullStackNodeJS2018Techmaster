@@ -16,9 +16,7 @@ $(document).ready((event) => {
 
         $.ajax({
             url: urlString,
-            type: 'GET',
-            //data: { name, weight, height } ,
-            //contentType: 'application/json; charset=utf-8',
+            type: 'GET',            
             success: (response) => {
                 alert(JSON.stringify(response));
             },

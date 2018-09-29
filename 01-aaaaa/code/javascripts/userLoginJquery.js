@@ -6,23 +6,29 @@ const serverName = '127.0.0.1'
 const serverPort = '8080'
 
 $(document).ready((event) => {
-    $("#btn-login").click((event) => {        
-        //event.preventDefault();
+    $("#btn-login").click((event) => {                
         const $this = $(event.currentTarget);                 
         const name = $("#name").val()
-        const weight = $("#weight").val()
-        const height = $("#height").val()
-        const urlString = `http://${serverName}:${serverPort}/users/bmi?name=${name}&weight=${weight}&height=${height}`
+        const password = $("#password").val()        
+        const urlString = `http://${serverName}:${serverPort}/users/login`
+        const urlLoginSuccess = `http://${serverName}:${serverPort}/users/loginSuccess`
+        const urlLoginFailed = `http://${serverName}:${serverPort}/users/loginFailed`
         $.ajax({
             url: urlString,
             type: 'POST',
-            //data: { name, weight, height } ,
+            data: { name, password } ,
             //contentType: 'application/json; charset=utf-8',
-            success: (response) => {
-                alert(JSON.stringify(response));
+            success: (response) => {                
+                //alert(`res = ${JSON.stringify(response)}`)
+                alert(`response.result = ${response.result}`)
+                if (response.result === "ok") {
+                    window.location.href = urlLoginSuccess
+                } else {
+                    window.location.href = urlLoginFailed                    
+                }                
             },
             error: (error) => {
-                alert(error);
+                window.location.href = urlLoginFailed
             }
         })
     });
