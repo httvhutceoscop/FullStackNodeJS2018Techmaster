@@ -13,14 +13,14 @@ router.get('/bmi', async (req, res) => {
     height = parseFloat(height)    
     if (isNaN(weight)||isNaN(height)) {
         res.json({
-            result: "",
+            result: "failed",
             message: "Bạn phải nhập chiều cao và cân nặng"
         })
         return
     }
     if (name === "") {
         res.json({
-            result: "",
+            result: "ok",
             message: "Bạn phải nhập tên người"
         })
         return
@@ -42,12 +42,40 @@ router.get('/bmi', async (req, res) => {
         message = "Quá mập"
     }
     res.json({
-        result: `Chỉ số BMI của bạn: ${name} là: ${bmi}`,
-        message
+        result: "ok",
+        data: bmi,
+        message: `Chỉ số BMI của bạn: ${name} là: ${bmi} => ${message}`
     })
 })
 router.get('/bmiForm', async (req, res) => {
     //BMI = Body Mass Index
-    res.render('users');
+    res.render('userBMI')
+})
+//Login
+router.get('/loginForm', async (req, res) => {
+    //BMI = Body Mass Index
+    res.render('userLogin')          
+})
+
+let users = [{'admin': '@123'}, {'bob' : '#321'}, {'jane': 'bob'}]
+router.post('/login', async (req, res) => {
+    //BMI = Body Mass Index
+    
+    let { name = "", password = "" } = req.body
+    const foundUser = users.find(user => {
+        return (user[name] === password)
+    })
+    debugger
+    if (foundUser) {
+        res.json({
+            result: "ok",            
+            message: `Đăng nhập thành công`
+        })
+    } else {
+        res.json({
+            result: "failed",
+            message: "Tên hoặc mật khẩu sai"
+        })
+    }    
 })
 module.exports = router
