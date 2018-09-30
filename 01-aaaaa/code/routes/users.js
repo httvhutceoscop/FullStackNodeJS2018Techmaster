@@ -78,7 +78,7 @@ router.post('/login', async (req, res) => {
     }    
 })
 router.get('/loginFailed', async (req, res) => {    
-    res.render('loginFailed')          
+    res.render('loginFailed')       
 })
 router.get('/loginSuccess', async (req, res) => {    
     res.render('loginSuccess')          

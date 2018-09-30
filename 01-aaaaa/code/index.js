@@ -17,8 +17,7 @@ app.set('view engine', 'ejs');//npm install ejs
 //Upload files
 const fileUpload = require('express-fileupload');
 app.use(fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 },
-    preserveExtension: true
+    limits: { fileSize: 15 * 1024 * 1024 },    
 }))
 
 app.get('/', (req, res) => {
