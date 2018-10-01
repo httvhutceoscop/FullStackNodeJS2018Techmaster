@@ -3,11 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <% include ./head %>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.22.0/css/jquery.fileupload.min.css">    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.22.0/js/vendor/jquery.ui.widget.min.js"></script>    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.22.0/js/jquery.iframe-transport.min.js"></script>    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.22.0/js/jquery.fileupload.min.js"></script>    
+    <% include ./head %>    
     <script src="/uploadMp3Form.js"></script>    
 </head>
 
@@ -27,10 +23,13 @@
                         <label class="custom-file-label" for="mp3File">Choose mp3 file</label>
                     </div>
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Upload</button>
+                        <button class="btn btn-primary" type="button" id="btn-upload">Upload</button>
                     </div>
                 </div>
             </div>
+        </div>        
+        <div class="form-group row">
+            <label></label>
         </div>
         <div class="form-group row">
             <div class="col-xs-4">

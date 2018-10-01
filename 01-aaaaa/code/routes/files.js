@@ -80,6 +80,7 @@ router.post('/upload', async (req, res) => {
 
 router.post('/uploads', async (req, res) => {
     try {
+        debugger
         if (!req.files) {
             res.json({
                 result: "failed",
@@ -102,7 +103,7 @@ router.post('/uploads', async (req, res) => {
 
             const fileExtension = fileObject.name.split('.').pop()
 
-            if (["png", "jpg", "jpeg", ".gif"].indexOf(fileExtension.toLowerCase()) < 0) {
+            if (["png", "jpg", "jpeg", "gif"].indexOf(fileExtension.toLowerCase()) < 0) {
                 res.json({
                     result: "failed",
                     message: `You can only upload png, jpg, gif, jpeg files !`
