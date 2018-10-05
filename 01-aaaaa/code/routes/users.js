@@ -58,9 +58,7 @@ router.get('/loginForm', async (req, res) => {
 })
 
 let users = [{'admin': '@123'}, {'bob' : '#321'}, {'jane': 'bob'}]
-router.post('/login', async (req, res) => {
-    //BMI = Body Mass Index
-    
+router.post('/login', async (req, res) => {        
     let { name = "", password = "" } = req.body
     const foundUser = users.find(user => {
         return (user[name] === password)

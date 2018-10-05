@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');//npm install ejs
 //Upload files
 const fileUpload = require('express-fileupload');
 app.use(fileUpload({
-    limits: { fileSize: 15 * 1024 * 1024 },    
+    limits: { fileSize: 150 * 1024 * 1024 },    
 }))
 
 app.get('/', (req, res) => {
@@ -61,12 +61,14 @@ const files = require('./routes/files')
 const system = require('./routes/system')
 const users = require('./routes/users')
 const calculations = require('./routes/calculations')
+const tasks = require('./routes/tasks')
 
 app.use('/books', books)
 app.use('/files', files)
 app.use('/system', system)
 app.use('/users', users)
 app.use('/calculations', calculations)
+app.use('/tasks', tasks)
 
 
 app.use((req, res) => {

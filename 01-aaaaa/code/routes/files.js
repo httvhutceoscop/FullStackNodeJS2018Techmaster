@@ -80,7 +80,7 @@ router.post('/upload', async (req, res) => {
 
 router.post('/uploads', async (req, res) => {
     try {
-        debugger
+        
         if (!req.files) {
             res.json({
                 result: "failed",
@@ -103,7 +103,7 @@ router.post('/uploads', async (req, res) => {
 
             const fileExtension = fileObject.name.split('.').pop()
 
-            if (["png", "jpg", "jpeg", "gif"].indexOf(fileExtension.toLowerCase()) < 0) {
+            if (["png", "jpg", "jpeg", "gif", "mp3"].indexOf(fileExtension.toLowerCase()) < 0) {
                 res.json({
                     result: "failed",
                     message: `You can only upload png, jpg, gif, jpeg files !`
@@ -145,7 +145,20 @@ router.post('/uploads', async (req, res) => {
     }
 })
 router.get('/uploadMp3Form', async (req, res) => {
-    res.render('uploadMp3Form')
+    try {        
+        const currentFolder = `${path.join(__dirname, '..')}/uploads/`
+        let fileNames = await readdir(currentFolder)        
+        let mp3FileNames = fileNames.filter(fileName => {            
+            const fileExtension = fileName.split('.').pop()            
+            return (['mp3'].indexOf(fileExtension) >= 0)
+        })
+        res.render('uploadMp3Form', {mp3FileNames})
+    } catch (e) {
+        console.log('e', e);
+    }    
+})
+router.get('/uploadAvatarForm', async (req, res) => {
+    res.render('uploadAvatarForm')
 })
 
 module.exports = router
