@@ -10,6 +10,8 @@ video/
 subscribe.png
 subscribe.psd
 screenshots
+node_modules
+node_modules/
 
 # Java class files
 *.class
