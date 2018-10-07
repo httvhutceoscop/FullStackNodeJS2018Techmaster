@@ -20,6 +20,20 @@ app.use(fileUpload({
     limits: { fileSize: 150 * 1024 * 1024 },    
 }))
 
+const uuid = require('uuid/v4')
+const session = require('express-session')
+app.use(session({
+    // genid: (req) => {      
+    //     let sessionId = uuid()
+    //     console.log(`sessionId = ${sessionId}`)
+    //     return sessionId // use UUIDs for session IDs
+    // },
+    secret: 'ff65c97b-8468-492b-aadf-232b2632a77b',    
+    resave: false,
+    saveUninitialized: true,    
+  }))
+
+  
 app.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send('<h1>Hello World!</h1>')
@@ -62,6 +76,9 @@ const system = require('./routes/system')
 const users = require('./routes/users')
 const calculations = require('./routes/calculations')
 const tasks = require('./routes/tasks')
+const weather = require('./routes/weather')
+const counter = require('./routes/counter')
+const home = require('./routes/home')
 
 app.use('/books', books)
 app.use('/files', files)
@@ -69,7 +86,9 @@ app.use('/system', system)
 app.use('/users', users)
 app.use('/calculations', calculations)
 app.use('/tasks', tasks)
-
+app.use('/counter', counter)
+app.use('/weather', weather)
+app.use('/home', home)
 
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname + '/error404.html'))
