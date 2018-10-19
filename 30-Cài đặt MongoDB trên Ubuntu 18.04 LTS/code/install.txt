@@ -1,0 +1,28 @@
+//Xem version ubuntu, Linux Standard Base (LSB) 
+lsb_release -a
+//Cập nhật các package của ubuntu(latest version)
+sudo apt update
+//adv = advanced options
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+
+echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+
+//Install - y = "Yes"
+sudo apt install -y mongodb-org
+sudo apt install -y mongodb-server-core
+sudo apt install -y mongodb-clients
+
+//Data
+mkdir /home/hoangnd/mongoDB
+//Start Database => mongo sẽ đc chạy trên 1 "process"
+//dbpath = Database's path
+sudo mongod --dbpath /home/hoangnd/mongoDB --port 27018 
+//Mở thành 1 process ngầm
+sudo mongod --dbpath /home/hoangnd/mongoDB --port 27018& 
+//Xem các process ngầm nào đang chạy mongo, grep = "global regular expression"
+ps wuax | grep mongo
+//Stop bằng cách "kill process"
+sudo kill "id của process"
+
+//Connect mongo
+mongo --host 127.0.0.1:27018
