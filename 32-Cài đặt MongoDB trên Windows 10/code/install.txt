@@ -1,0 +1,12 @@
+//Mở cmd.exe ở chế độ Admin
+//set PATH cho thư mục cài Mongodb: C:\Program Files\MongoDB\Server\4.0\bin
+File config: /bin/mongod.cfg
+
+
+//Data
+Tạo thư mục chứa Database
+md C:\mongoData
+mongod --dbpath C:\mongoData\ --port 27018
+
+//Connect mongo
+mongo --host 127.0.0.1:27018, hoặc cài Robo3T
