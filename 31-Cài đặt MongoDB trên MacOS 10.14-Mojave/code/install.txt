@@ -1,0 +1,27 @@
+//Cách 1: Download mongodb về cài. Ưu điểm: dễ chọn version, test đc các version khác nhau
+//copy vào thư mục “bin” = binaries của hệ thống:
+sudo mv ~/Downloads/mongodb-osx-x86_64-4.0.3 /usr/local/bin/
+//Set path đến thư mục cài mongo
+export PATH=/usr/local/bin/mongodb-osx-x86_64-4.0.3/bin:$PATH
+//Có thể set vào ~/.bashrc
+//test xem đã cài chưa:
+mongod
+
+//Cách 2: Sử dụng brew. Ưu điểm: dễ cài đặt
+brew update
+brew install mongodb
+
+//Data
+mkdir /Users/hoangnd/mongoDB
+//Start Database => mongo sẽ đc chạy trên 1 "process"
+//dbpath = Database's path
+sudo mongod --dbpath /Users/hoangnd/mongoDB --port 27018 
+//Mở thành 1 process ngầm
+sudo mongod --dbpath /Users/hoangnd/mongoDB --port 27018& 
+//Xem các process ngầm nào đang chạy mongo, grep = "global regular expression"
+ps wuax | grep mongo
+//Stop bằng cách "kill process"
+sudo kill "id của process"
+
+//Connect mongo
+mongo --host 127.0.0.1:27018, hoặc cài Robo3T
