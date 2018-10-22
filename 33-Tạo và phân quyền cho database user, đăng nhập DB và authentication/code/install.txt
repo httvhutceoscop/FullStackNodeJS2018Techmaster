@@ -1,0 +1,17 @@
+//Kết nối CSDL Mongo:
+mongo --host localhost:27018 
+//Hoặc dùng connection string:
+mongo mongodb://localhost:27018
+
+//Connect DB có tên và mật khẩu:
+1. Bật DB
+sudo chown -R $USER /Users/hoangnd/mongoDB/
+mongod --dbpath /Users/hoangnd/mongoDB/ --port 27018 --auth 
+2.Connect DB:
+mongo --username hoangnd --password 123456  --authenticationDatabase fullstackNodejs2018 --host localhost --port 27018
+
+use fullstackNodejs2018
+db.createUser({user: 'hoangnd',pwd: '123456',roles: [{role:"readWrite",db: 'fullstackNodejs2018'}]})
+db.getUsers()
+db.dropUser('hoangnd')
+db.getUsers()
