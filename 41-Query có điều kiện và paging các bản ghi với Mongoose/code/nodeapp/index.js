@@ -2,7 +2,12 @@
  Khoá học FullStackNodejs 2018 - Techmaster Vietnam
  Instructor: Nguyễn Đức Hoàng
  */
-const {insertUser,deleteAllUsers} = require('./database/userController')
+const {
+    insertUser,
+    deleteAllUsers, 
+    findUserById,
+    findSomeUsers
+} = require('./database/userController')
 // insertUser('Hoang', 30, 'sunlight4d@gmail.com')
 // insertUser('Alex', 28, 'alex123@yahoo.com')
 // insertUser('Leanne Graham', 23, 'Sincere@april.biz')
@@ -17,4 +22,6 @@ const {insertUser,deleteAllUsers} = require('./database/userController')
 // insertUser('Clementina DuBuque', 20, 'Rey.Padberg@karina.biz')
 //Thử insert 1 bản ghi "lỗi":
 //insertUser('Alex Err', 29, 'alex123yahoo.com')
-deleteAllUsers()
+// deleteAllUsers()
+//findUserById("5bd44a74be67e7038f40ab67") //id lấy ở đâu ?
+findSomeUsers()

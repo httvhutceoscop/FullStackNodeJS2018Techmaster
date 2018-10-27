@@ -3,7 +3,6 @@
  Instructor: Nguyễn Đức Hoàng
  File này chứa các hàm liên quan đến "User" collection
  */
-
 const {User} = require('./models')
 //Hàm insert 1 user mới
 const insertUser = async (name, age, email) => {
@@ -27,42 +26,46 @@ const deleteAllUsers = async () => {
         console.log(`Ko thể xoá hết các user.Error: ${error}`)
     }
 }
+//Tìm kiếm 1 doc nào đó theo id
 const findUserById = async (userId) => {
     try {
         let foundUser = await User.findById(userId)
-        debugger;
         console.log(`foundUser = ${JSON.stringify(foundUser)}`)        
     } catch(error) {
         console.log(`Ko tìm thấy user.Error: ${error}`)
     }
 }
-//Hiện tất cả user, có sắp xếp, paging, chọn lọc field hiển thị
-//Tìm những người có tuổi >= 30,tên có chứa chữ "le", ko phân biệt hoa-thường()
+//Hiện tất cả các users, hiện có điều kiện
 const findSomeUsers = async () => {
     try {
         let foundUsers = await User.find(
-        {},//Hiện tất cả user
-        ["name","email"], //Chỉ hiện tên và email, ko hiện tuổi        
-        {
-            sort:{
-                skip:0, // số bản ghi bỏ qua
-                limit:5, // Số bản ghi giới hạn. VD: trang 0=> skip = 0*5, limit=5; trang 1=> skip = 1*5, limit=5
-                name: 1 //Sắp xếp theo thứ tự a,b,c, -1: theo thứ tụ z,y,x,...b,a
+            {}, //Hiện tất cả các users
+            //Tìm những người có tuổi >= 30,
+            //tên có chứa chữ "le", ko phân biệt hoa-thường()
+            //{age: {$gte: 30}, name: /le/i},//insensitive-case
+            ["name", "email","age"], 
+            //Sắp xếp ?
+            {
+                sort: {                    
+                    name: -1//1 => Sắp xếp theo thứ tự a,b,c, -1=> theo thứ tụ z,y,x,...b,a
+                }
             }
-        }
-        )
+        ).skip(2 * 5).limit(5) //Bỏ qua 10 bản ghi, chỉ hiện 5 
+        //Paging:VD: 
+        //trang 0=> skip = 0*5, limit=5
+        //trang 1=> skip = 1*5, limit=5
+        //trang 2=> skip = 2*5, limit=5
         foundUsers.forEach(user => {
             console.log(`user = ${user}`)
-        })        
+        }) 
         console.log(`Tổng số: ${foundUsers.length}`)
     } catch(error) {
-        console.log(`Ko tìm thấy user.Error: ${error}`)
+        console.log(`Ko tìm thấy users.Error: ${error}`)
     }
 }
-
 module.exports = {
     insertUser, 
-    deleteAllUsers, 
+    deleteAllUsers,
     findUserById,
     findSomeUsers
 }
