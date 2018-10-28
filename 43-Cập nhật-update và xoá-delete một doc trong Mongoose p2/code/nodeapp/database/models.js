@@ -6,7 +6,6 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose //Kỹ thuật "destructuring" trong JS
 const {ObjectId} = Schema
-
 //Kết nối CSDL MongoDB
 const connectDatabase = async () => {
     try {
