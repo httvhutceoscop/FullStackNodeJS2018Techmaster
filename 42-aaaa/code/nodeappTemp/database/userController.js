@@ -4,6 +4,8 @@
  File này chứa các hàm liên quan đến "User" collection
  */
 const {User} = require('./models')
+const {ObjectId} = require('mongoose').Types
+
 //Hàm insert 1 user mới
 const insertUser = async (name, age, email) => {
     try {
@@ -63,9 +65,63 @@ const findSomeUsers = async () => {
         console.log(`Ko tìm thấy users.Error: ${error}`)
     }
 }
+//Cập nhật thông tin 1 bản ghi(doc). Cách 1: dùng findOneAndUpdate
+// const updateUser = async (userId, name, email, age) => {
+//     try {
+//         let newUser = {}
+//         if(name !== undefined) {
+//             newUser.name = name
+//         }
+//         if(email !== undefined) {
+//             newUser.email = email
+//         }
+//         if(age !== undefined) {
+//             newUser.age = age
+//         }
+//         let updatedUser = await User.findOneAndUpdate(
+//             {_id: ObjectId(userId)}, 
+//             newUser,            
+//         )        
+//         if (updatedUser != null) {
+//             console.log(`update thành công.Name = ${JSON.stringify(newUser)}`)
+//         } else {
+//             console.log(`Không tìm thấy bản ghi để cập nhật`)
+//         }        
+//     } catch(error) {
+//         console.log(`Ko update được thông tin user.Error: ${error}`)
+//     }
+// }
+//Cập nhật thông tin 1 bản ghi(doc). Cách 2, kết hợp findById và update
+const updateUser = async (userId, name, email, age) => {
+    try {
+        let foundUser = await User.findById(userId)
+        if(!foundUser) {
+            console.log(`Không tìm thấy user với id=${userId} để cập nhật`)
+            return
+        }
+        foundUser.name = (name !== undefined) ? name : foundUser.name
+        foundUser.email = (email !== undefined) ? email : foundUser.email
+        foundUser.age = (age !== undefined) ? age : foundUser.age
+        await foundUser.save()   
+        console.log(`update thành công.User = ${JSON.stringify(foundUser)}`)        
+    } catch(error) {
+        console.log(`Ko update được thông tin user.Error: ${error}`)
+    }
+}
+const deleteUser = async (userId) => {
+    try {
+        await User.deleteOne({_id: ObjectId(userId)})        
+        console.log(`Xoá thành công bản ghi user với id = ${JSON.stringify(userId)}`)        
+    } catch(error) {
+        console.log(`Ko xoá được bản ghi user.Error: ${error}`)
+    }
+}
+
 module.exports = {
     insertUser, 
     deleteAllUsers,
     findUserById,
-    findSomeUsers
+    findSomeUsers,
+    updateUser,
+    deleteUser
 }
