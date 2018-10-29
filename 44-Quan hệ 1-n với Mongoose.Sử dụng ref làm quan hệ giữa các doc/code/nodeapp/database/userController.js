@@ -3,9 +3,8 @@
  Instructor: Nguyễn Đức Hoàng
  File này chứa các hàm liên quan đến "User" collection
  */
-const { User, BlogPost } = require('./models')
-//const { ObjectId } = require('mongoose').Types
-const { ObjectId } = require('mongoose').Schema.Types
+const {User, BlogPost} = require('./models')
+const { ObjectId } = require('mongoose').Types
 //Hàm insert 1 user mới
 const insertUser = async (name, age, email) => {
     try {
@@ -125,48 +124,59 @@ const deleteUser = async (userId) => {
 //Case study: Tạo ra một user, user này "viết" 5 bài post
 const createSomeUsersAndPosts = async () => {
     try {
-        debugger;
-        const mrHoangCartoon = new User({name: "Hoang cartoon", age: 32, email: "hoangcartoon@gmail.com", blogPosts:[]})        
-        
-        mrHoangCartoon.blogPosts = []
+        const mrHoangCartoon = new User({
+            name: 'Hoang cartoon',
+            age: 32,
+            email: 'hoangcartoon@gmail.com',
+            blogPosts:[]
+        })
         //Danh sách 5 bài post
-        const newBlogPost1 = new BlogPost({title: "Phim hoạt hình Tom& Jerry", 
-                            content: "Đây là loạt phim cho các cháu thiếu nhi", 
-                            date: Date.now(), author: mrHoangCartoon._id})
+        const newBlogPost1 = new BlogPost({
+            title: "Phim hoạt hình Tom& Jerry", 
+            content: "Đây là loạt phim cho các cháu thiếu nhi", 
+            date: Date.now(), 
+            author: mrHoangCartoon
+        })
         await newBlogPost1.save()
         await mrHoangCartoon.blogPosts.push(newBlogPost1)
-        await mrHoangCartoon.save()        
-        const newBlogPost2 = new BlogPost({title: "Toy Story-câu chuyện đồ chơi", 
-                            content: "Đây là phim hoạt hình của Pixar, hình ảnh đẹp", 
-                            date: Date.now(), author: mrHoangCartoon._id})
+        await mrHoangCartoon.save() 
+        //Tạo 4 blogPost còn lại
+        const newBlogPost2 = new BlogPost({
+            title: "Toy Story-câu chuyện đồ chơi", 
+            content: "Đây là phim hoạt hình của Pixar, hình ảnh đẹp", 
+            date: Date.now(), 
+            author: mrHoangCartoon})
         await newBlogPost2.save()
         await mrHoangCartoon.blogPosts.push(newBlogPost2)
-        await mrHoangCartoon.save()        
-        const newBlogPost3 = new BlogPost({title: "Frozen-nữ hoàng băng giá", 
-                            content: "Nữ hoàng Elsa sử dụng phép thuật để tạo nên tòa lâu đài băng giá trên núi", 
-                            date: Date.now(), author: mrHoangCartoon._id})
+        await mrHoangCartoon.save() 
+        const newBlogPost3 = new BlogPost({
+            title: "Frozen-nữ hoàng băng giá", 
+            content: "Nữ hoàng Elsa sử dụng phép thuật để tạo nên tòa lâu đài băng giá trên núi", 
+            date: Date.now(), 
+            author: mrHoangCartoon})
         await newBlogPost3.save()
         await mrHoangCartoon.blogPosts.push(newBlogPost3)
-        await mrHoangCartoon.save()        
-        const newBlogPost4 = new BlogPost({title: "Tangled (2010)", 
-                            content: "Điểm nhấn của Tangled là cảnh Rapunzel và Flynn dưới bầu trời đêm rực sáng",
-                            date: Date.now(), author: mrHoangCartoon._id})
+        await mrHoangCartoon.save() 
+        const newBlogPost4 = new BlogPost({
+            title: "Tangled (2010)", 
+            content: "Điểm nhấn của Tangled là cảnh Rapunzel và Flynn dưới bầu trời đêm rực sáng",
+            date: Date.now(), 
+            author: mrHoangCartoon})
         await newBlogPost4.save()
         await mrHoangCartoon.blogPosts.push(newBlogPost4)
-        await mrHoangCartoon.save()        
-        const newBlogPost5 = new BlogPost({title: "Up 2009. Hai ông cháu", 
-                            content: "Khán giả dễ bị choáng ngợp bởi ngôi nhà bóng bay rực rỡ vút cao trên bầu trời xanh", 
-                            date: Date.now(), author: mrHoangCartoon._id})
+        await mrHoangCartoon.save() 
+        const newBlogPost5 = new BlogPost({
+            title: "Up 2009. Hai ông cháu", 
+            content: "Khán giả dễ bị choáng ngợp bởi ngôi nhà bóng bay rực rỡ vút cao trên bầu trời xanh", 
+            date: Date.now(), 
+            author: mrHoangCartoon._id})
         await newBlogPost5.save()
         await mrHoangCartoon.blogPosts.push(newBlogPost5)
-        await mrHoangCartoon.save()        
-
-          
+        await mrHoangCartoon.save()  
         console.log(`Tạo thành công danh sách User và BlogPost`) 
-
     } catch(error) {
         console.log(`Ko tạo được các bản ghi.Error: ${error}`)
-    } 
+    }
 }
 module.exports = {
     insertUser, 
