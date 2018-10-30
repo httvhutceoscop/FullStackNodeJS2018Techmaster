@@ -178,6 +178,45 @@ const createSomeUsersAndPosts = async () => {
         console.log(`Ko tạo được các bản ghi.Error: ${error}`)
     }
 }
+//Case study: Hiện danh sách Users, kèm chi tiết các bài BlogPost
+//Cần join 2 collections: "users" và "blogposts"
+const populateUsers = async () => {
+    try {
+        let foundUsers = await User.find({
+            age: {$gte: 30} //greater than or equal
+        }).populate({
+            path: 'blogPosts', //populate trường "tham chiếu"
+            select: ['title', 'content'],//Chỉ hiện title, content
+            //Lọc kết quả sau khi "populate" ?
+            //match: {content: /lâu đài/i},//i = insensitive-case
+            //Chỉ hiện tối đa 5 blogposts ?
+            options: {limit: 5}
+        }).exec()
+        foundUsers.forEach(user => {
+            console.log(`user = ${user}`)
+        })
+        console.log(`Operation success`)
+    } catch(error) {
+        console.log(`Operation failed.Error: ${error}`)
+    } 
+}
+//"Populate" theo chiều ngược lại => Hiện danh sách blogPosts =>
+//kèm chi tiết "author"
+const populateBlogPosts = async () => {
+    try {
+        let foundBlogPosts = await BlogPost.find({}).
+                                populate({
+                                    path: 'author',
+                                    select: ['name', 'email']
+                                }).exec()
+        foundBlogPosts.forEach(blogPost => {
+            console.log(`blogPost = ${blogPost}`)
+        }) 
+        console.log(`Operation success`)
+    } catch(error) {
+        console.log(`Operation failed.Error: ${error}`)
+    } 
+}
 module.exports = {
     insertUser, 
     deleteAllUsers,
@@ -185,5 +224,7 @@ module.exports = {
     findSomeUsers,
     updateUser,
     deleteUser,
-    createSomeUsersAndPosts
+    createSomeUsersAndPosts,
+    populateUsers,
+    populateBlogPosts
 }
