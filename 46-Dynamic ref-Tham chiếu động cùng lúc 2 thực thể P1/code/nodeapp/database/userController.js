@@ -217,25 +217,26 @@ const populateBlogPosts = async () => {
         console.log(`Operation failed.Error: ${error}`)
     } 
 }
+//Comments
 const populateComments = async () => {
-    try {        
-        //"Hoang cartoon" comment lên "Nodejs cookbook"
-        const mrHoangCartoon = await User.findById("5bd6fe5ae4a322245f05fbe3")
-        const aBlogPost = await BlogPost.findById("5bd6feeb6537db2468b27198")
+    try { 
+        //Lấy ra object "Hoang cartoon"
+        const mrHoangCartoon = await User.findById('5bd7ac74350b2505477d5450')
+        //"Hoang cartoon" viết comment lên 1 blogpost? 
+        const aBlogPost = await BlogPost.findById('5bd7ac74350b2505477d5453')
         const comment1 = await Comment.create({
             body: 'This is a good cartoon',
             author: mrHoangCartoon,
             commentOn: aBlogPost,
             onModel: 'BlogPost'
         })
-        
-        aBlogPost.comments.push(comment1)        
+        aBlogPost.comments.push(comment1)
         await comment1.save()
         await aBlogPost.save()
-
-        const book = await Product.create({ 
+        //Comment thứ 2 lên 1 "product"
+        const book = await Product.create({
             name: 'Nodejs cookbook',
-            yearOfProduction: 2018,            
+            yearOfProduction: 2018
         })
         const comment2 = await Comment.create({
             body: 'This is an exellent book',
@@ -247,12 +248,11 @@ const populateComments = async () => {
         await comment2.save()
         await book.save()
 
-        console.log(`Operation success`)
+        console.log(`Operation success`)       
     } catch(error) {
         console.log(`Operation failed.Error: ${error}`)
-    } 
+    }    
 }
-
 module.exports = {
     insertUser, 
     deleteAllUsers,
