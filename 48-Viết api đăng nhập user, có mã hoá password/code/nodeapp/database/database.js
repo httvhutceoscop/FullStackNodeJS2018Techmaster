@@ -23,5 +23,3 @@ connectDatabase()
 module.exports = {
     mongoose
 }
-
-

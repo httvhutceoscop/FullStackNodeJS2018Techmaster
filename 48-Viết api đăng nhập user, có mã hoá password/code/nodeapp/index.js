@@ -1,20 +1,23 @@
 /**
  Khoá học FullStackNodejs 2018 - Techmaster Vietnam
  Instructor: Nguyễn Đức Hoàng
- npm install -i body-parser
+ Viết api đăng nhập user với mật khẩu được mã hoá
+ Cần cài một số thư viện sau:
  npm install -i express
+ npm install -i body-parser
  npm install -i bcrypt
  */
 const express = require('express')
 const app = express()
-const port = 3000
-
+const PORT = 3000
+//Nhúng middleware body-parser vào Express
 const bodyParser = require('body-parser')
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
+//Tuỳ biến Router
 const usersRouter  = require('./routers/usersRouter')
 app.use('/users', usersRouter)
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+//Start server
+app.listen(PORT, () => {
+    console.log(`Example app listening on port ${PORT}!`)
+})
