@@ -3,7 +3,9 @@
  Instructor: Nguyễn Đức Hoàng
  Viết api đăng nhập user với mật khẩu được mã hoá
  Cần cài một số thư viện sau:
- npm install --save nodemailer
+ npm install -i express
+ npm install -i body-parser
+ npm install -i bcrypt
  */
 const express = require('express')
 const app = express()
