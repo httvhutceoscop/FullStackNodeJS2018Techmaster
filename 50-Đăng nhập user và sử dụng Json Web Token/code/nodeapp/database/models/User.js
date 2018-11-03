@@ -6,7 +6,8 @@
 const {mongoose} = require('../database')
 const bcrypt = require('bcrypt')
 const {sendEmail} = require('../../helpers/utility')
-
+const jwt = require('jsonwebtoken')//Mã hoá 1 jsonObject thành token(string)
+const secretString = "secret string"//tự cho 1 string tuỳ ý
 const {Schema} = mongoose
 const UserSchema = new Schema({
     //schema: cấu trúc của 1 collection 
@@ -55,4 +56,46 @@ const activateUser = async (email, secretKey) => {
         throw error       
     }
 }
-module.exports = {User, insertUser, activateUser}
+//Viết hàm login user
+const loginUser = async (email, password) => {
+    try {
+        let foundUser = await User.findOne({email: email.trim()})
+                            .exec()
+        if(!foundUser) {
+            throw "User không tồn tại"
+        }
+        if(foundUser.active === 0) {
+            throw "User chưa kích hoạt, bạn phải mở mail kích hoạt trước"               
+        }
+        let encryptedPassword = foundUser.password
+        let checkPassword = await bcrypt.compare(password, encryptedPassword)
+        if (checkPassword === true) {
+            //Đăng nhập thành công
+            let jsonObject = {
+                id: foundUser._id
+            }
+            let tokenKey = await jwt.sign(jsonObject, 
+                                secretString, {
+                                    expiresIn: 86400 // Expire trong 24 giờ
+                                })
+            return tokenKey
+        }
+    } catch(error) {
+        throw error
+    }
+}
+const verifyJWT = async (tokenKey) => {
+    try {          
+        let decodedJson = await jwt.verify(tokenKey, secretString)
+        if(Date.now() / 1000 >  decodedJson.exp) {
+            throw "Token hết hạn, mời bạn login lại"
+        }
+        let foundUser = await User.findById(decodedJson.id)
+        if (!foundUser) {
+            throw "Ko tìm thấy user với token này"
+        }
+    } catch(error) {
+        throw error
+    }                 
+}
+module.exports = {User, insertUser, activateUser, loginUser, verifyJWT}
