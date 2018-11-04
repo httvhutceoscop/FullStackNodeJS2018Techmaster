@@ -88,8 +88,7 @@ const loginUser = async (email, password) => {
     }
 }
 const verifyJWT = async (tokenKey) => {
-    try {          
-        debugger
+    try {                  
         let decodedJson = await jwt.verify(tokenKey, secretString)
         if(Date.now() / 1000 >  decodedJson.exp) {
             throw "Token hết hạn, mời bạn login lại"

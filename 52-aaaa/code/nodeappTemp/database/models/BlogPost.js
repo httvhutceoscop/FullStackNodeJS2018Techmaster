@@ -5,7 +5,6 @@
  */
 const {mongoose} = require('../database')
 const {Schema} = mongoose
-debugger
 const {verifyJWT} = require('./User')
 
 const BlogPostSchema = new Schema({
@@ -34,8 +33,9 @@ const insertBlogPost = async (title, content, tokenKey) => {
         throw error
     }
 }
+
 const queryBlogPosts = async (text) => {
-    try {
+    try {        
         let blogPosts = await BlogPost.find({
             $or: [
                 {
@@ -44,8 +44,21 @@ const queryBlogPosts = async (text) => {
                 {
                     content: new RegExp(text, "i")//i => ko phân biệt hoa/thường
                 }
-            ],            
+            ],                   
         })
+        return blogPosts
+    } catch(error) {        
+        throw error
+    }
+}
+const queryBlogPostsByDateRange = async (from, to) => {
+    //format: dd-mm-yyyy    
+    let fromDate = new Date(parseInt(from.split('-')[2]), parseInt(from.split('-')[1])-1, parseInt(from.split('-')[0]))
+    let toDate = new Date(parseInt(to.split('-')[2]), parseInt(to.split('-')[1])-1, parseInt(to.split('-')[0]))        
+    try {                
+        let blogPosts = await BlogPost.find({
+            date: {$gte: fromDate, $lte: toDate},            
+        })        
         return blogPosts
     } catch(error) {        
         throw error
@@ -65,7 +78,11 @@ const getDetailBlogPost = async (blogPostId) => {
 
 module.exports = {
 	BlogPost,
-	insertBlogPost
+	insertBlogPost,
+    queryBlogPosts,
+    getDetailBlogPost,
+    queryBlogPostsByDateRange,
+    getDetailBlogPost
 }
 /*
 Chạy quảng cáo Facebook
