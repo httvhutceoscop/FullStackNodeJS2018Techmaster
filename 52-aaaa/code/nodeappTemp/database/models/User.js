@@ -9,7 +9,7 @@ const {sendEmail} = require('../../helpers/utility')
 const jwt = require('jsonwebtoken')//Mã hoá 1 jsonObject thành token(string)
 const secretString = "secret string"//tự cho 1 string tuỳ ý
 const {Schema} = mongoose
-const { BlogPost } = require('./BlogPost')
+//const { BlogPost } = require('./BlogPost')
 
 const UserSchema = new Schema({
     //schema: cấu trúc của 1 collection 
@@ -89,6 +89,7 @@ const loginUser = async (email, password) => {
 }
 const verifyJWT = async (tokenKey) => {
     try {          
+        debugger
         let decodedJson = await jwt.verify(tokenKey, secretString)
         if(Date.now() / 1000 >  decodedJson.exp) {
             throw "Token hết hạn, mời bạn login lại"
@@ -102,4 +103,10 @@ const verifyJWT = async (tokenKey) => {
         throw error
     }                 
 }
-module.exports = {User, insertUser, activateUser, loginUser, verifyJWT}
+module.exports = {
+    User, 
+    insertUser, 
+    activateUser, 
+    loginUser, 
+    verifyJWT 
+}

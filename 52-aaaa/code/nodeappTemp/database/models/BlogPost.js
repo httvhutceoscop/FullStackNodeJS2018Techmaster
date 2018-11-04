@@ -5,11 +5,11 @@
  */
 const {mongoose} = require('../database')
 const {Schema} = mongoose
-const { User, verifyJWT } = require('./User')
-const jwt = require('jsonwebtoken')//Mã hoá 1 jsonObject thành token(string)
+debugger
+const {verifyJWT} = require('./User')
 
 const BlogPostSchema = new Schema({
-    title: {type: String, default: 'Haha'},
+    title: {type: String, default: 'Haha', unique: true},
     content: {type: String, default: ''},
     date: {type: Date, default: Date.now},
     //Trường tham chiếu, 1 blogpost do 1 người viết
@@ -18,17 +18,18 @@ const BlogPostSchema = new Schema({
 //Chuyển từ Schema sang Model
 const BlogPost = mongoose.model('BlogPost', BlogPostSchema)
 //BlogPost controller
-const insertBlogPost = async (title, content, date) => {
+const insertBlogPost = async (title, content, tokenKey) => {
     try {
-    	//User nào đăng nhập thì user đó mới thêm được bài viết
-    	let tokenKey = req.headers['x-access-token']
-	    let signedInUser = verifyJWT(tokenKey)
+    	//User nào đăng nhập thì user đó mới thêm được bài viết           
+	    let signedInUser = await verifyJWT(tokenKey)
 	    let newBlogPost = await BlogPost.create({
 	    	title, content, 
 	    	date: Date.now(),
 	    	author: signedInUser
-	    })
+	    })        
 	    await newBlogPost.save()
+        signedInUser.blogPosts.push(newBlogPost)
+        await signedInUser.save()
     } catch(error) {        
         throw error
     }
