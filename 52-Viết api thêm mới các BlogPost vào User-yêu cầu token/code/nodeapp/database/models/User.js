@@ -15,6 +15,8 @@ const UserSchema = new Schema({
     email: {type: String, match:/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, unique: true},
     password: {type: String, required: true},    
     active: {type: Number, default: 0}, //inactive  
+    //Trường tham chiếu
+    blogPosts:[{type:mongoose.Schema.Types.ObjectId,ref:'BlogPost'}]
 })
 //Chuyển từ Schema sang Model
 const User = mongoose.model('User', UserSchema)
@@ -94,6 +96,7 @@ const verifyJWT = async (tokenKey) => {
         if (!foundUser) {
             throw "Ko tìm thấy user với token này"
         }
+        return foundUser
     } catch(error) {
         throw error
     }                 

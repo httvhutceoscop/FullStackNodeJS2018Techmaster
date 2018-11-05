@@ -20,7 +20,6 @@ const blogPostRouter  = require('./routers/blogPostRouter')
 
 app.use('/users', usersRouter)
 app.use('/blogposts', blogPostRouter)
-
 //Start server
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}!`)

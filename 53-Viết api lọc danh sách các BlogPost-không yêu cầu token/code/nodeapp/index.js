@@ -16,7 +16,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 //Tuỳ biến Router
 const usersRouter  = require('./routers/usersRouter')
+const blogPostRouter  = require('./routers/blogPostRouter')
+
 app.use('/users', usersRouter)
+app.use('/blogposts', blogPostRouter)
 //Start server
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}!`)

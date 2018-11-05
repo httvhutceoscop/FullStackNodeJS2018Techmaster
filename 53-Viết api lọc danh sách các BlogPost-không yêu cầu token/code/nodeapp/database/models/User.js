@@ -1,7 +1,7 @@
 /**
  Khoá học FullStackNodejs 2018 - Techmaster Vietnam
  Instructor: Nguyễn Đức Hoàng
- File này chứa User Model
+ File này chứa các User Model
  */
 const {mongoose} = require('../database')
 const bcrypt = require('bcrypt')
@@ -9,14 +9,13 @@ const {sendEmail} = require('../../helpers/utility')
 const jwt = require('jsonwebtoken')//Mã hoá 1 jsonObject thành token(string)
 const secretString = "secret string"//tự cho 1 string tuỳ ý
 const {Schema} = mongoose
-//const { BlogPost } = require('./BlogPost')
-
 const UserSchema = new Schema({
     //schema: cấu trúc của 1 collection 
     name: {type: String, default: 'unknown', unique: true},    
     email: {type: String, match:/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, unique: true},
     password: {type: String, required: true},    
     active: {type: Number, default: 0}, //inactive  
+    //Trường tham chiếu
     blogPosts:[{type:mongoose.Schema.Types.ObjectId,ref:'BlogPost'}]
 })
 //Chuyển từ Schema sang Model
@@ -88,7 +87,7 @@ const loginUser = async (email, password) => {
     }
 }
 const verifyJWT = async (tokenKey) => {
-    try {                  
+    try {          
         let decodedJson = await jwt.verify(tokenKey, secretString)
         if(Date.now() / 1000 >  decodedJson.exp) {
             throw "Token hết hạn, mời bạn login lại"
@@ -102,10 +101,4 @@ const verifyJWT = async (tokenKey) => {
         throw error
     }                 
 }
-module.exports = {
-    User, 
-    insertUser, 
-    activateUser, 
-    loginUser, 
-    verifyJWT 
-}
+module.exports = {User, insertUser, activateUser, loginUser, verifyJWT}
