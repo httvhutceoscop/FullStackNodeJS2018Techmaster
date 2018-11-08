@@ -9,12 +9,19 @@ const {sendEmail} = require('../../helpers/utility')
 const jwt = require('jsonwebtoken')//Mã hoá 1 jsonObject thành token(string)
 const secretString = "secret string"//tự cho 1 string tuỳ ý
 const {Schema} = mongoose
+const ACTION_BLOCK_USER = "ACTION_BLOCK_USER"
+const ACTION_DELETE_USER = "ACTION_DELETE_USER"
+
 const UserSchema = new Schema({
     //schema: cấu trúc của 1 collection 
     name: {type: String, default: 'unknown', unique: true},    
     email: {type: String, match:/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, unique: true},
     password: {type: String, required: true},    
+
     active: {type: Number, default: 0}, //inactive  
+    //Các chức năng phân quyền
+    isBanned: {type: Number, default: 0}, //Bị khoá tài khoản
+    permission: {type: Number, default: 0}, //0: user, 1: moderator, 2: admin
     //Trường tham chiếu
     blogPosts:[{type:mongoose.Schema.Types.ObjectId,ref:'BlogPost'}]
 })
@@ -47,7 +54,10 @@ const activateUser = async (email, secretKey) => {
                                 .exec()
         if (!foundUser) {
             throw "Không tìm thấy User để kích hoạt"
-        }    
+        }            
+        if(foundUser.isBanned === 1) {
+            throw "User đã bị khoá tài khoản, do vi phạm điều khoản"
+        }
         if (foundUser.active === 0) {
             foundUser.active = 1
             await foundUser.save()            
@@ -65,6 +75,9 @@ const loginUser = async (email, password) => {
                             .exec()
         if(!foundUser) {
             throw "User không tồn tại"
+        }
+        if(foundUser.isBanned === 1) {
+            throw "User đã bị khoá tài khoản, do vi phạm điều khoản"
         }
         if(foundUser.active === 0) {
             throw "User chưa kích hoạt, bạn phải mở mail kích hoạt trước"               
@@ -93,6 +106,9 @@ const verifyJWT = async (tokenKey) => {
             throw "Token hết hạn, mời bạn login lại"
         }
         let foundUser = await User.findById(decodedJson.id)
+        if(foundUser.isBanned === 1) {
+            throw "User đã bị khoá tài khoản, do vi phạm điều khoản"
+        }
         if (!foundUser) {
             throw "Ko tìm thấy user với token này"
         }
@@ -101,4 +117,42 @@ const verifyJWT = async (tokenKey) => {
         throw error
     }                 
 }
-module.exports = {User, insertUser, activateUser, loginUser, verifyJWT}
+//Các api liên quan đến admin
+const blockOrDeleteUsers = async (userIds, tokenKey, actionType) => {
+    try {
+        let signedInUser = await verifyJWT(tokenKey)        
+        if(signedInUser.isBanned === 1) {
+            throw "User đã bị khoá tài khoản, do vi phạm điều khoản"
+        }
+        if (signedInUser.permission !== 2){
+            throw "Chỉ có tài khoản admin mới có chức năng này"
+        }
+        userIds.forEach(async (userId) => {
+            let user = await User.findById(userId)
+            if (!user) {
+                return
+            }
+            if(actionType === ACTION_BLOCK_USER){
+                user.isBanned = 1                
+            } else if(actionType === ACTION_DELETE_USER) {
+                await User.deleteMany({author: userId})
+                user.blogPosts = []
+            } else {
+                throw "actionType chưa đúng"
+            }
+            await user.save()
+        })
+    } catch(error) {
+        throw error
+    }
+}
+module.exports = {
+    User, 
+    insertUser, 
+    activateUser, 
+    loginUser, 
+    verifyJWT,
+    blockOrDeleteUsers,
+    ACTION_BLOCK_USER, 
+    ACTION_DELETE_USER
+}

@@ -14,11 +14,6 @@ const { PORT } = require('./helpers/utility')
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
-const passport = require('passport')
-app.use(passport.initialize())
-app.use(passport.session())
-
 //Tuỳ biến Router
 const usersRouter  = require('./routers/usersRouter')
 const blogPostRouter  = require('./routers/blogPostRouter')

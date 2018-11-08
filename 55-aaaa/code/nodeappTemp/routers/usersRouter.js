@@ -9,17 +9,14 @@ const {
 	insertUser, 
 	activateUser, 
 	verifyJWT,
-	loginUser 
+	loginUser,
+	blockOrDeleteUsers
 } = require('../database/models/User')
-const passport = require('passport')
-const {Strategy} = require('passport-facebook')
-const {PORT} = require('../helpers/utility')
 
 router.use((req, res, next) => {
     console.log('Time: ', Date.now()) //Time log
     next()
 })
-
 router.post('/registerUser', async (req, res) =>{
 	let {name, email, password} = req.body //Phần validate trường chúng ta sẽ học ở bài khác    
     try {
@@ -33,31 +30,6 @@ router.post('/registerUser', async (req, res) =>{
             result: 'failed',
             message: `Không thể đăng ký thêm user. Lỗi : ${error}`
         })
-	}
-})
-passport.use(new Strategy({
-    clientID: "1980570765574341", //app's id
-    clientSecret: "7141db4b926a4c7152f614a0f9825a98",//app secret
-    callbackURL: `http://${require('os').hostname()}:${PORT}/users/loginFacebook/callback`
-  },
-  (accessToken, refreshToken, profile, cb) => {
-    //Login FB thành công với profile(result)
-  }
-))
-router.get('/loginFacebook', passport.authenticate('facebook'), async (req, res) =>{	
-	debugger
-    try {
-        
-	} catch(error) {
-		
-	}
-})
-router.get('/loginFacebook/callback', passport.authenticate('facebook'), async (req, res) =>{	
-	debugger
-    try {
-        
-	} catch(error) {
-		
 	}
 })
 //router để kích hoạt user
@@ -102,6 +74,25 @@ router.get('/jwtTest', async (req, res) => {
 		res.json({
             result: 'failed',
             message: `Lỗi kiểm tra token : ${error}`
+        })
+	}
+})
+//router cho admin
+router.post('/admin/blockOrDeleteUsers', async (req, res) => {		
+	let tokenKey = req.headers['x-access-token']
+	let {actionType, userIds} = req.body
+	userIds = userIds.split(',')	
+    try {
+		//Verify token
+		await blockOrDeleteUsers(userIds, tokenKey, actionType)
+		res.json({
+			result: 'ok',
+			message: 'Đã block / delete thành công',	  		
+	  	})	
+	} catch(error) {
+		res.json({
+            result: 'failed',
+            message: `Ko thể block delete được user.Error: ${error}`
         })
 	}
 })
