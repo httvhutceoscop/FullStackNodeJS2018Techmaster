@@ -77,23 +77,22 @@ router.get('/jwtTest', async (req, res) => {
         })
 	}
 })
-//router cho admin
 router.post('/admin/blockOrDeleteUsers', async (req, res) => {		
 	let tokenKey = req.headers['x-access-token']
-	let {actionType, userIds} = req.body
-	userIds = userIds.split(',')	
-    try {
-		//Verify token
-		await blockOrDeleteUsers(userIds, tokenKey, actionType)
+	let {userIds, actionType} = req.body
+	userIds = userIds.split(',')//Biến tring thành array
+	try {		
+		await blockOrDeleteUsers(userIds, tokenKey, actionType)		
 		res.json({
 			result: 'ok',
-			message: 'Đã block / delete thành công',	  		
+			message: 'Block/delete user thành công',	  		
 	  	})	
 	} catch(error) {
 		res.json({
             result: 'failed',
-            message: `Ko thể block delete được user.Error: ${error}`
+            message: `Lỗi Block/delete user.Error: ${error}`
         })
 	}
+
 })
 module.exports = router

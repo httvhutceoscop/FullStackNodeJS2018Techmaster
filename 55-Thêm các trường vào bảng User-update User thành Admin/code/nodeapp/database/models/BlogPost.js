@@ -133,7 +133,15 @@ const deleteBlogPost = async (blogPostId, tokenKey) => {
         throw error
     }
 }
-
+const deleteBlogPostsByAuthor = async (authorId) => {
+    try {                                
+        await BlogPost.deleteMany({
+            author: authorId
+        })
+    } catch(error) {        
+        throw error
+    }
+}
 module.exports = {
     BlogPost,
     insertBlogPost,
@@ -141,5 +149,6 @@ module.exports = {
     queryBlogPostsByDateRange,
     getDetailBlogPost,
     updateBlogPost,
-    deleteBlogPost
+    deleteBlogPost,
+    deleteBlogPostsByAuthor
 }
