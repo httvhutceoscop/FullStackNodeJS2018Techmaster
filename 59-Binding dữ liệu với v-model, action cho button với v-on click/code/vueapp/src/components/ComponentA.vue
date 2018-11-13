@@ -4,6 +4,13 @@
     <p>{{this.currentDateTime}}</p>    
     <p v-if="isShow">Dòng này sẽ ẩn / hiện</p>
     <!-- v-if là 1 "directive": v-if = true thì thẻ chứa nó mới hiện ra -->
+    <!-- Nhập thông tin blog post mới, dùng thẻ input -->    
+    <input v-model="newBlogPost.title" placeholder="Tiêu đề Blog">
+    <p>{{this.newBlogPost.title}}</p>  
+    <input v-model="newBlogPost.content" placeholder="Nội dung Blog">
+    <p>{{this.newBlogPost.content}}</p>
+    <!-- Thêm button để thực hiện hàm "thêm mới BlogPost" -->
+    <button v-on:click="addBlogPost">Thêm BlogPost</button>
     <!-- Đưa danh sách các blogPosts data vào 1 "list" -->
     <ol>
       <li v-for="blogpost in blogPosts" v-bind:key="blogpost.title">
@@ -42,7 +49,16 @@ export default {
           title: 'Tương tác giữa Vue và Nodejs',
           content:'Vue gửi các Request lên Nodejs để CRUD dữ liệu trên server, qua axios hoặc fetch'
          },
-      ]
+      ],
+      //Thêm mới BlogPost, cần data: "newBlogPost"
+      newBlogPost: {title:'', content:''},      
+    }
+  },
+  //Các phương thức "private"
+  methods: {
+    addBlogPost() {
+      this.blogPosts.push(this.newBlogPost)
+      this.newBlogPost = {title:'', content:''}
     }
   }
 }
