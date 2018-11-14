@@ -1,35 +1,23 @@
 <template>
-  <div id="app">    
-    <ComponentA message="Đây là component A"/>
-    <ComponentB message="Đây là component B"/>
-    <ComponentC message="Đây là component C"/>
+  <div id="container">   
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <BlogPostsComponent message="Danh sách các BlogPosts"/>    
   </div>
 </template>
 
 <script>
-import ComponentA from './components/ComponentA.vue'
-import ComponentB from './components/ComponentB.vue'
-import ComponentC from './components/ComponentC.vue'
+import BlogPostsComponent from './components/BlogPostsComponent.vue'
 /**
 Một file Vue gồm 3 phần chính: template, script và style
  */
 export default {
   name: 'app',
   components: {
-    ComponentA,
-    ComponentB,
-    ComponentC
+    BlogPostsComponent,
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
