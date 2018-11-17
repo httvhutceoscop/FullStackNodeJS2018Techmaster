@@ -10,8 +10,7 @@
       <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
           <h5 class="text-center">Login to your account</h5>            
-          <form @submit.prevent="submit">
-            <div class="form-group">
+          <div class="form-group">
               <input type="text" id="inputEmail"
                   v-model="email"
                   v-validate="'required|email'"
@@ -33,17 +32,16 @@
                 <label class="custom-control-label" for="customCheck1">Remember password</label>
             </div>
             <button class="btn-lg btn-primary btn-block text-uppercase" 
-              type="submit">
+              @click="login">
               Login
             </button>
             <hr class="my-4">
-            <button class="btn-lg btn-google btn-block text-uppercase" 
-              type="submit">
+            <button class="btn-lg btn-google btn-block text-uppercase"
+              @click="loginGoogle">
               <i class="fab fa-google mr-2"></i> Sign in with Google</button>
-            <button class="btn-lg btn-facebook btn-block text-uppercase" 
-              type="submit">
+            <button class="btn-lg btn-facebook btn-block text-uppercase"
+              @click="loginFacebook" >
               <i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
-          </form>
         </div>
       </div>
   </div> 
@@ -65,27 +63,28 @@ export default {
   },
 
   //Các phương thức "private"
-  methods: {
-    validateBeforeSubmit(e) {
-      alert(`e = ${JSON.stringify(e)}`)
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          // eslint-disable-next-line
-          alert('Form Submitted!');
+  methods: {        
+    async login() {      
+      let result = await this.$validator.validateAll()
+      if (!result) {          
           return;
-        }  
-      })
+      }  
+      alert('Bạn bấm đăng nhập email/password')
     },
-    
-    // login() {
-    //   alert('Bạn bấm đăng nhập email/password')
-    // },
-    // loginFacebook() {
-    //   alert('Bạn bấm đăng nhập Facebook')
-    // },
-    // loginGoogle() {
-    //   alert('Bạn bấm đăng nhập Google')
-    // },
+    async loginFacebook() {
+      let result = await this.$validator.validateAll()
+      if (!result) {          
+          return;
+      }  
+      alert('Bạn bấm đăng nhập Facebook')
+    },
+    async loginGoogle() {
+      let result = await this.$validator.validateAll()
+      if (!result) {          
+          return;
+      }  
+      alert('Bạn bấm đăng nhập Google')
+    },
   }
 };
 </script>
