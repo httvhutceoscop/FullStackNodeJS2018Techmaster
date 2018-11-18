@@ -6,7 +6,7 @@
  yarn add vee-validate
  -->
 <template>
-  <div class="container">      
+  <div class="container">        
       <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
           <h5 class="text-center">Login to your account</h5>            
@@ -16,17 +16,18 @@
                   v-validate="'required|email'"
                   name="email"
                   :class="{'form-control': true, 'border-danger': errors.has('email') }"
-                  placeholder="Email address" autofocus>                  
-              <i v-show="errors.has('email')" class="fa fa-warning"></i>
+                  placeholder="Email address" autofocus>                                
               <span v-show="errors.has('email')" class="text-danger">{{ errors.first('email') }}</span>
             </div>            
             <div class="form-group">
               <input type="password" 
-                class="form-control" placeholder="Password" 
                 name="password"
-                v-validate="'required'">                
-            </div>
-            <span v-show="errors.has('required')">{{ errors.first('required') }}</span>
+                v-validate="'required'"                
+                :class="{'form-control': true, 'border-danger': errors.has('password') }"
+                placeholder="Password">                
+            </div>            
+            <span v-show="errors.has('password')" 
+              class="text-danger">{{ errors.first('password') }}</span>
             <div class="custom-control custom-checkbox mb-3">
                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                 <label class="custom-control-label" for="customCheck1">Remember password</label>
