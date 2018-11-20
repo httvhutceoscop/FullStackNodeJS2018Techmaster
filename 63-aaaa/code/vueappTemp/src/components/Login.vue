@@ -8,7 +8,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <h5 class="text-center">Login to your account</h5>
+        <h4 class="text-center">Login to your account</h4>
         <div class="form-group">
           <input type="text" id="inputEmail"
             v-model="email"
@@ -41,21 +41,10 @@
           <label class="custom-control-label" 
               for="customCheck1">Remember password</label>
         </div>
-        <div class="d-flex flex-row">
-          <div class="p-2">
-            <button class="btn-lg btn-primary btn-block text-uppercase"
-              @click="login">
-              Login
-            </button>
-          </div>
-          <div class="p-2">
-            <button class="btn-lg btn-success btn-block text-uppercase"
-              @click="login">
-              Register
-            </button>
-          </div>
-        </div>
-        
+        <button class="btn-lg btn-primary btn-block text-uppercase"
+          @click="login">
+          Login
+        </button>        
         <!-- Muốn hiện icon, dùng font Awesome -->
         <button class="btn-lg btn-google btn-block text-uppercase"
           @click="loginGoogle">
@@ -66,15 +55,21 @@
           @click="loginFacebook">
           <i class="fab fa-facebook-f mr-2"></i> 
           Sign in with Facebook
-        </button>
+        </button>          
+        <h5 class="text-center mx-auto mt-1">OR</h5>                      
+        <Register></Register>
       </div>
     </div>
   </div> 
 </template>
 
 <script>
-export default {
+import Register from './Register.vue'
+export default {  
   name: "Login",
+  components: {
+    Register,
+  },
   //props = "Thuộc tính public"
   props: {},
 
