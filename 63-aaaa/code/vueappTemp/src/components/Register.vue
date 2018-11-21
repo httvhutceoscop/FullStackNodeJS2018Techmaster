@@ -92,11 +92,11 @@ export default {
       }
       let response = await registerUser(this.name, this.email, this.password)
       return
-      if (response.result) {
-        alert('register sucessfully')
-      } else {
-        alert('register failed')
-      }
+      // if (response.result) {
+      //   alert('register sucessfully')
+      // } else {
+      //   alert('register failed')
+      // }
       // alert(
       //   `Bạn bấm tạo account. Email: ${this.email}, password: ${this.password}`
       // )
