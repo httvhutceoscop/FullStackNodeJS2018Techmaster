@@ -90,16 +90,8 @@ export default {
       if (!result) {
         return;
       }
-      let response = await registerUser(this.name, this.email, this.password)
-      return
-      // if (response.result) {
-      //   alert('register sucessfully')
-      // } else {
-      //   alert('register failed')
-      // }
-      // alert(
-      //   `Bạn bấm tạo account. Email: ${this.email}, password: ${this.password}`
-      // )
+      let response = await registerUser(this.fullName, this.email, this.password)      
+      alert(JSON.stringify(response))      
     },    
   }
 };

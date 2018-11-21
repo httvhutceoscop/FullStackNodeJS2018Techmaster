@@ -13,13 +13,16 @@ export const registerUser = async (name, email, password) => {
             method: 'POST',
             mode: 'no-cors',
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             },
-            body: JSON.stringify({ name, email, password }),
-        })
-        alert(`response = ${response}`)
-        return new APIResponse(response.data, response.message, true) //success
+            body: `name=${name}&email=${email}&password=${password}`,
+        })        
+        alert(JSON.stringify(response))
+        if(response.result === "ok") {
+            return new APIResponse(response.data, response.message, true) //success
+        } else {
+            return new APIResponse(null, response.message, false) //false
+        }        
     } catch (error) {
         return new APIResponse(null, error.message, false) //false
     } 
