@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import {registerUser} from '../APIs/usersAPI.js'
+// import {APIResponse} from '../APIs/apiParameters.js'
 export default {
   name: "Register",
   //props = "Thuộc tính public"
@@ -88,9 +90,16 @@ export default {
       if (!result) {
         return;
       }
-      alert(
-        `Bạn bấm tạo account. Email: ${this.email}, password: ${this.password}`
-      );
+      let response = await registerUser(this.name, this.email, this.password)
+      return
+      if (response.result) {
+        alert('register sucessfully')
+      } else {
+        alert('register failed')
+      }
+      // alert(
+      //   `Bạn bấm tạo account. Email: ${this.email}, password: ${this.password}`
+      // )
     },    
   }
 };
