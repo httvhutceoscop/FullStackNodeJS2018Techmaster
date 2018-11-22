@@ -2,7 +2,9 @@
   Khoá học FullStackNodejs Techmaster 2018
  * Instructor: Nguyễn Đức Hoàng
  * Youtube: https://www.youtube.com/c/nguyenduchoang
- * Bài này sẽ hướng dẫn các bạn làm màn hình Login dùng Vue.js
+ * Bài này sẽ hướng dẫn các bạn:
+ - Viết Component Register
+ - Gọi Api đăng ký user từ VueJS sang Nodejs
  -->
 <template>
   <div class="container">
@@ -56,14 +58,20 @@
           <i class="fab fa-facebook-f mr-2"></i> 
           Sign in with Facebook
         </button>
+        <h5 class="text-center mx-auto mt-1">OR</h5>
+        <Register></Register>
       </div>
     </div>
   </div> 
 </template>
 
 <script>
+import Register from './Register.vue'
 export default {
   name: 'Login',
+  components: {
+    Register
+  },
   //props = "Thuộc tính public"
   props: {
     

@@ -2,13 +2,15 @@
   Khoá học FullStackNodejs Techmaster 2018
  * Instructor: Nguyễn Đức Hoàng
  * Youtube: https://www.youtube.com/c/nguyenduchoang
- * Bài này sẽ hướng dẫn các bạn làm màn hình Login dùng Vue.js
+ * Bài này sẽ hướng dẫn các bạn:
+ - Viết Component Register
+ - Gọi Api đăng ký user từ VueJS sang Nodejs
  -->
 <template>
   <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <h4 class="text-center">Login to your account</h4>
+        <h5 class="text-center">Login to your account</h5>
         <div class="form-group">
           <input type="text" id="inputEmail"
             v-model="email"
@@ -44,7 +46,7 @@
         <button class="btn-lg btn-primary btn-block text-uppercase"
           @click="login">
           Login
-        </button>        
+        </button>
         <!-- Muốn hiện icon, dùng font Awesome -->
         <button class="btn-lg btn-google btn-block text-uppercase"
           @click="loginGoogle">
@@ -55,8 +57,8 @@
           @click="loginFacebook">
           <i class="fab fa-facebook-f mr-2"></i> 
           Sign in with Facebook
-        </button>          
-        <h5 class="text-center mx-auto mt-1">OR</h5>                      
+        </button>
+        <h5 class="text-center mx-auto mt-1">OR</h5>
         <Register></Register>
       </div>
     </div>
@@ -65,51 +67,51 @@
 
 <script>
 import Register from './Register.vue'
-export default {  
-  name: "Login",
+export default {
+  name: 'Login',
   components: {
-    Register,
+    Register
   },
   //props = "Thuộc tính public"
-  props: {},
+  props: {
+    
+  },
 
   data() {
     return {
-      //Các thuộc tính "private" => Giống "state" trong React !
-      email: "",
-      password: ""
-    };
+      //Các thuộc tính "private" => Giống "state" trong React !       
+      email:'',
+      password:''
+    }
   },
-
+  
   //Các phương thức "private"
   methods: {
     async login() {
       //Giờ chúng ta cần "validate" các thông tin đăng nhập
-      let result = await this.$validator.validateAll();
-      if (!result) {
-        return;
+      let result = await this.$validator.validateAll()
+      if(!result) {
+        return
       }
 
-      alert(
-        `Bạn bấm đăng nhập. Email: ${this.email}, password: ${this.password}`
-      );
+      alert(`Bạn bấm đăng nhập. Email: ${this.email}, password: ${this.password}`)
     },
     async loginFacebook() {
-      let result = await this.$validator.validateAll();
-      if (!result) {
-        return;
+      let result = await this.$validator.validateAll()
+      if(!result) {
+        return
       }
-      alert("Bạn bấm đăng nhập Facebook");
+      alert('Bạn bấm đăng nhập Facebook')
     },
-    async loginGoogle() {
-      let result = await this.$validator.validateAll();
-      if (!result) {
-        return;
-      }
-      alert("Bạn bấm đăng nhập Google");
-    }
-  }
-};
+    async loginGoogle() {    
+      let result = await this.$validator.validateAll()
+      if(!result) {
+        return
+      }  
+      alert('Bạn bấm đăng nhập Google')
+    },
+  },  
+}
 </script>
 
 <!-- scoped: Chỉ có tác dụng trong file .vue này -->
