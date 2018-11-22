@@ -60,13 +60,20 @@
     <button class="btn-lg btn-success btn-block text-uppercase"
       @click="createAccount">
       Create Account
-    </button>            
+    </button>  
+    <span v-if="registerResponse.result === false" 
+      class="text-danger">{{registerResponse.message}}
+    </span>              
+    <span v-else 
+      class="text-success">{{registerResponse.message}}
+    </span>              
   </div>
 </template>
 
 <script>
 import {registerUser} from '../APIs/usersAPI.js'
-// import {APIResponse} from '../APIs/apiParameters.js'
+import {APIResponse} from '../APIs/apiParameters.js'
+
 export default {
   name: "Register",
   //props = "Thuộc tính public"
@@ -78,7 +85,8 @@ export default {
       fullName: "",
       email: "",
       password: "",
-      retypePassword: ""
+      retypePassword: "",
+      registerResponse: new APIResponse()      
     };
   },
 
@@ -90,8 +98,8 @@ export default {
       if (!result) {
         return;
       }
-      let response = await registerUser(this.fullName, this.email, this.password)      
-      alert(JSON.stringify(response))      
+      this.registerResponse = await registerUser(this.fullName, this.email, this.password)      
+        
     },    
   }
 };
