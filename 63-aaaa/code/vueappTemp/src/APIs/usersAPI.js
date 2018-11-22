@@ -11,13 +11,16 @@ export const registerUser = async (name, email, password) => {
         
         let response = await fetch(API_REGISTER_USER, {
             method: 'POST',
-            mode: 'no-cors',
+            //mode: 'no-cors',
+            // mode: "same-origin",
+            body: `name=${name}&email=${email}&password=${password}`,
             headers: {
                 "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-            },
-            body: `name=${name}&email=${email}&password=${password}`,
-        })        
-        alert(JSON.stringify(response))
+            },            
+        })      
+        
+        let res1 = await response.json()
+        alert(res1)          
         if(response.result === "ok") {
             return new APIResponse(response.data, response.message, true) //success
         } else {

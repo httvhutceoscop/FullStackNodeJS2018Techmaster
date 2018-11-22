@@ -6,16 +6,17 @@
 const express = require('express')
 const router = express.Router()
 const { insertUser } = require('../database/models/User')
+var cors = require('cors')
 
 router.use((req, res, next) => {
     console.log('Time: ', Date.now()) //Time log
     next()
 })
 router.post('/registerUser', async (req, res) =>{
-	debugger
+	res.setHeader('Access-Control-Allow-Origin', '*')
 	let {name, email, password} = req.body //Phần validate trường chúng ta sẽ học ở bài khác    
     try {
-        await insertUser(name, email, password)
+		await insertUser(name, email, password)		
 	  	res.json({
 	  		result: 'ok',
 	  		message: 'Đăng ký user thành công, bạn cần mở mail để kích hoạt'
