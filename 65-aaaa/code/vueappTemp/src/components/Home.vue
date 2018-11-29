@@ -10,11 +10,13 @@
   <div class="container">    
     <Header></Header>
     <h5 class="text-center">This is BlogPosts List</h5>    
+    <Footer></Footer>
   </div> 
 </template>
 
 <script>
 import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 export default {
   name: 'Home',
   components: {

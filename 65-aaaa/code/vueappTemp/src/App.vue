@@ -8,16 +8,14 @@
     <router-view></router-view>
   </div>
 </template>
-
 <script>
-import Login from './components/Login.vue'
 /**
 Một file Vue gồm 3 phần chính: template, script và style
  */
 export default {
   name: 'app',
   components: {
-    Login,
+    
   }
 }
 </script>

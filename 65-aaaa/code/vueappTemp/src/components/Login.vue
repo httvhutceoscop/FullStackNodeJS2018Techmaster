@@ -7,7 +7,7 @@
  - Gọi Api đăng ký user từ VueJS sang Nodejs
  -->
 <template>
-  <div class="container">
+  <div class="container">    
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <h5 class="text-center">Login to your account</h5>
@@ -62,11 +62,15 @@
         <Register></Register>
       </div>
     </div>
+    <Footer></Footer>
   </div> 
 </template>
 
 <script>
-import Register from './Register.vue'
+import Register from '@/components/Register'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+
 export default {
   name: 'Login',
   components: {
