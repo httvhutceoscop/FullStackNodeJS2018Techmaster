@@ -6,7 +6,7 @@
  -->
  <template>
   <div class="container">  
-    <Header></Header>      
+    <Header navigateToLogin="navigateToLogin"></Header>      
     <h5 class="text-center">This is BlogPosts List</h5>    
     <Footer></Footer>
   </div> 
@@ -24,12 +24,14 @@ export default {
         password:''
       }
     },  
+    methods: {
+      navigateToLogin(){
+        alert('aha')
+        this.$router.push("Login")
+      }
+    },
     beforeCreate() {
             
-    },
-    //Các phương thức "private"
-    methods: {
-
     }
 }
 </script>

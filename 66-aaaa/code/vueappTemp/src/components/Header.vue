@@ -17,33 +17,45 @@
       <li class="nav-item">
         <a class="nav-link" href="#">My blogposts</a>
       </li>      
-      <li class="nav-item">
-        <img src="https://avatars2.githubusercontent.com/u/5370919?s=460&v=4"           
+      <li class="nav-item" v-if="isLoggedIn === true">
+        <img src ="profileUrl" v-show="profileUrl.length > 0"
           class="rounded" width="30" height="30">
-        <span v-show ="userName.length > 0" class="align-middle ml-2">{{}}</span>
-      </li>            
+        <span v-show ="userName.length > 0" class="align-middle ml-2">{{userName.userName}}</span>
+      </li>   
+      <li class="nav-item" v-else>
+        <button type="button" 
+          @click="login"
+          class="btn btn-warning">Login
+        </button>
+      </li>         
     </ul>    
   </nav>
 </template>
 <script>
 export default {
     name: 'Header',
+    props: {
+      navigateToLogin: Function
+    },
     data() {
       return {      
         userName:'',        
-        profileUrl:''
+        profileUrl:'',
+        isLoggedIn: false
       }
     },  
+    methods: {
+      login() {
+        this.$router
+      }
+    },
     beforeCreate() {
       if (this.$session.exists()) {
         let userObject = this.$session.get('loggedInUser')
         this.userName = userObject.name ? userObject.name : ''
         this.profileUrl = userObject.profileUrl ? userObject.profileUrl : ''
+        this.isLoggedIn = userObject ? true : false
       }
-    },
-    //Các phương thức "private"
-    methods: {
-
-    }
+    }  
 }
 </script>
