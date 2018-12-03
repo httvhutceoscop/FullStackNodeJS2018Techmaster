@@ -6,7 +6,7 @@
  -->
  <template>
   <div class="container">  
-    <Header navigateToLogin="navigateToLogin"></Header>      
+    <Header @clickToLogin="navigateToLogin" @clickToSignOut="signOut"></Header>      
     <h5 class="text-center">This is BlogPosts List</h5>    
     <Footer></Footer>
   </div> 
@@ -24,10 +24,13 @@ export default {
         password:''
       }
     },  
-    methods: {
-      navigateToLogin(){
-        alert('aha')
+    methods: {      
+      navigateToLogin() {        
         this.$router.push("Login")
+      },
+      signOut() {
+        this.$session.destroy()
+        this.$router.push('/')
       }
     },
     beforeCreate() {

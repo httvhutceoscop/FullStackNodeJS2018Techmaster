@@ -5,7 +5,7 @@
  Header component dùng chung cho các màn hình
  -->
  <template>
-  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">   
     <a class="navbar-brand" href="#">BlogPostApp</a>
     <input class="form-control col-lg-4 m-2" type="search" 
         placeholder="Search" aria-label="Search">
@@ -17,14 +17,16 @@
       <li class="nav-item">
         <a class="nav-link" href="#">My blogposts</a>
       </li>      
-      <li class="nav-item" v-if="isLoggedIn === true">
-        <img src ="profileUrl" v-show="profileUrl.length > 0"
+      <li class="nav-item align-middle" v-if="this.isLoggedIn==true">
+        <img v-bind:src ="profileUrl" v-if="profileUrl.length > 0"
           class="rounded" width="30" height="30">
-        <span v-show ="userName.length > 0" class="align-middle ml-2">{{userName.userName}}</span>
+        <i v-else class="fas fa-user"></i>         
+        <span v-show ="userName.length > 0" class="align-middle ml-2">{{userName}}</span>
+        <button class="btn btn-danger ml-2" @click="clickToSignOut">Sign out</button>
       </li>   
       <li class="nav-item" v-else>
         <button type="button" 
-          @click="login"
+          @click="this.clickToLogin"
           class="btn btn-warning">Login
         </button>
       </li>         
@@ -35,7 +37,7 @@
 export default {
     name: 'Header',
     props: {
-      navigateToLogin: Function
+      
     },
     data() {
       return {      
@@ -43,18 +45,28 @@ export default {
         profileUrl:'',
         isLoggedIn: false
       }
-    },  
-    methods: {
-      login() {
-        this.$router
-      }
+    },          
+    methods: {    
+      clickToLogin() {
+        this.$emit('clickToLogin')
+      },
+      clickToSignOut() {        
+        this.userName = ''
+        this.profileUrl = ''
+        this.isLoggedIn = false        
+        this.$emit('clickToSignOut')        
+      },      
     },
-    beforeCreate() {
+    created() {
       if (this.$session.exists()) {
         let userObject = this.$session.get('loggedInUser')
         this.userName = userObject.name ? userObject.name : ''
         this.profileUrl = userObject.profileUrl ? userObject.profileUrl : ''
         this.isLoggedIn = userObject ? true : false
+      } else {
+        this.userName = ""
+        this.profileUrl = ""
+        this.isLoggedIn = false
       }
     }  
 }

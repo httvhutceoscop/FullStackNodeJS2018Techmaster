@@ -17,6 +17,7 @@ router.use((req, res, next) => {
     next()
 })
 router.post('/registerUser', async (req, res) =>{
+	
 	let {name, email, password} = req.body //Phần validate trường chúng ta sẽ học ở bài khác    
     try {
         await insertUser(name, email, password)

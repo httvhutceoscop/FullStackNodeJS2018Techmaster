@@ -39,7 +39,7 @@
         <!-- checkbox ? -->
         <div class="custom-control custom-checkbox mb-3">
           <input type="checkbox" class="custom-control-input" 
-              id="customCheck1">
+              id="customCheck1" v-model="rememberPassword">
           <label class="custom-control-label" 
               for="customCheck1">Remember password</label>
         </div>
@@ -79,13 +79,33 @@ export default {
   },
 
   data() {
+    if(this.$session.exists()) {
+      return {
+        email: this.$session.get("email"),
+        password: this.$session.get("password"),
+        rememberPassword: false
+      }
+    }
     return {
       //Các thuộc tính "private" => Giống "state" trong React !       
       email:'',
-      password:''
+      password:'',
+      rememberPassword: false
     }
   },
-  
+  watch: {
+    // whenever question changes, this function will run
+    rememberPassword: function (newValue, oldValue) {
+      if (newValue === true) {
+        this.$session.start()
+        this.$session.set('email', this.email)        
+        this.$session.set('password', this.password)        
+      }
+    }
+  },
+  created() {
+    
+  },
   //Các phương thức "private"
   methods: {
     async login() {
@@ -95,7 +115,7 @@ export default {
         return
       }
       let loggedInUser = await loginUser(this.email, this.password)
-      if (Object.keys(loggedInUser).length > 0) {
+      if (Object.keys(loggedInUser).length > 0) { //Đăng nhập thành công
         this.$session.start()
         this.$session.set('loggedInUser', loggedInUser)
         this.$router.push('/') //Home
